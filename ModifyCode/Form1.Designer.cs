@@ -40,6 +40,7 @@
             this.StatusBarLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.FileFilterCS = new System.Windows.Forms.CheckBox();
             this.FileFilterTXT = new System.Windows.Forms.CheckBox();
+            this.FileFilterShader = new System.Windows.Forms.CheckBox();
             this.StatusBar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,6 +52,7 @@
             this.ChooseBtn.TabIndex = 0;
             this.ChooseBtn.Text = "选择文件或文件夹";
             this.ChooseBtn.UseVisualStyleBackColor = true;
+            this.ChooseBtn.Click += ChooseBtn_Click;
             // 
             // FilePathBox
             // 
@@ -134,11 +136,22 @@
             this.FileFilterTXT.Text = "*.txt";
             this.FileFilterTXT.UseVisualStyleBackColor = true;
             // 
+            // checkBox1
+            // 
+            this.FileFilterShader.AutoSize = true;
+            this.FileFilterShader.Location = new System.Drawing.Point(446, 62);
+            this.FileFilterShader.Name = "FileFilterShader";
+            this.FileFilterShader.Size = new System.Drawing.Size(78, 16);
+            this.FileFilterShader.TabIndex = 9;
+            this.FileFilterShader.Text = "*.shader";
+            this.FileFilterShader.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(572, 332);
+            this.Controls.Add(this.FileFilterShader);
             this.Controls.Add(this.FileFilterTXT);
             this.Controls.Add(this.FileFilterCS);
             this.Controls.Add(this.StatusBar);
@@ -155,10 +168,6 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
-
-            this.ChooseBtn.Click += ChooseBtn_Click;
-            this.AddToFileEnd.Click += AddStrOnFileEnd_Click;
-            this.AddToFileHead.Click += AddStrOnFileHead_Click;
         }
 
         private void AddStrOnFileHead_Click(object sender, System.EventArgs e)
@@ -191,7 +200,13 @@
                     filterStr = FileFilterTXT.Text;
                     fileNum = FileToolManager.FindFiles(folderBrowserDialog.SelectedPath, filterStr);
                 }
-                StatusBarLabel1.Text = "一共选中了" + fileNum + "个文件";
+                if (FileFilterShader.Checked)
+                {
+                    filterStr = FileFilterTXT.Text;
+                    fileNum = FileToolManager.FindFiles(folderBrowserDialog.SelectedPath, filterStr);
+                }
+                int lineNum = FileToolManager.GetLineCountOfAllFiles();
+                StatusBarLabel1.Text = "一共选中了" + fileNum + "个文件,总共行数:"+lineNum.ToString();
             }
         }
 
@@ -208,8 +223,10 @@
         private System.Windows.Forms.StatusStrip StatusBar;
         private System.Windows.Forms.CheckBox FileFilterCS;
         private System.Windows.Forms.CheckBox FileFilterTXT;
+        private System.Windows.Forms.CheckBox FileFilterShader;
         private System.Windows.Forms.ToolStripStatusLabel StatusBarLabel1;
         private System.Windows.Forms.ToolStripStatusLabel StatusBarLabel2;
+        
     }
 }
 

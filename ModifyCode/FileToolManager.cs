@@ -99,5 +99,34 @@ namespace ModifyCode
         {
             Instance.handleFiles.Clear();
         }
+        public static int GetLineCountOfFile(string file)
+        {
+            int result = 0;
+            try
+            {
+                var fileContent = File.ReadLines(file);
+         //       List<string> contentFile = fileContent.ToList<string>();
+                result = fileContent.Count();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                result = 0;
+            }
+            return result;
+        }
+        public static int GetLineCountOfAllFiles()
+        {
+            int result = 0;
+            if(Instance.handleFiles?.Count >0)
+            {
+                foreach (string file in Instance.handleFiles)
+                {
+                    result += GetLineCountOfFile(file);
+                }
+            }
+ 
+            return result;
+        }
     }
 }
